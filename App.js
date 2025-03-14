@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
-  Button,
   Pressable,
+  ScrollView,
   StyleSheet,
   Text,
   TextInput,
@@ -10,48 +10,44 @@ import {
 
 export default function App() {
   const [search, setSearch] = useState("");
-  const [charData, setCharData] = useState([]);
+  const [goals, setGoals] = useState([]);
 
   function handleSearchInput(params) {
     setSearch(params);
   }
 
-  function getCharacterFromApi(params) {
-    // alert(params);
-    const options = { method: "GET" };
-
-    fetch(
-      `https://genshin-db-api.vercel.app/api/v5/characters?query=${search}`,
-      options
-    )
-      .then((response) => response.json())
-      .then((response) => {
-        setCharData(response);
-        console.log(response);
-      })
-      .catch((err) => console.log(err));
+  function addGoal() {
+    setGoals((currentGoals) => [...currentGoals, search]);
+    // setSearch("");
   }
-
-  // useEffect(() => {}, [search]);
 
   return (
     <View style={styles.container}>
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.charInput}
-          placeholder="Enter Character Name"
+          placeholder="Enter Goal"
           value={search}
           onChangeText={(value) => handleSearchInput(value)}
         />
         <Pressable
           style={styles.searchButton}
-          onPress={() => getCharacterFromApi(search)}
+          onPress={addGoal}
+          disabled={search.trim().length === 0}
         >
-          <Text style={styles.btnText}>SEARCH</Text>
+          <Text style={styles.btnText}>Add Goal</Text>
         </Pressable>
       </View>
       <View style={styles.goalsContainer}>
-        <Text>{charData.description}</Text>
+        <ScrollView>
+          <View style={{ gap: 16 }}>
+            {goals.map((goal, index) => (
+              <View key={index} style={styles.cardContainer}>
+                <Text>{goal}</Text>
+              </View>
+            ))}
+          </View>
+        </ScrollView>
       </View>
     </View>
   );
@@ -78,7 +74,8 @@ const styles = StyleSheet.create({
     borderColor: "#ccc",
     borderWidth: 1,
     borderRadius: 4,
-    padding: 7.5,
+    paddingHorizontal: 7.5,
+    paddingVertical: 11,
   },
   searchButton: {
     alignItems: "center",
@@ -96,6 +93,11 @@ const styles = StyleSheet.create({
   },
   goalsContainer: {
     flex: 8,
-    // backgroundColor: "#cca",
+  },
+  cardContainer: {
+    padding: 16,
+    borderRadius: 4,
+    backgroundColor: "#e0f7fa",
+    elevation: 3,
   },
 });
