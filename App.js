@@ -39,7 +39,7 @@ export default function App() {
         </Pressable>
       </View>
       <View style={styles.goalsContainer}>
-        <ScrollView>
+        <ScrollView alwaysBounceVertical={false}>
           <View style={{ gap: 16 }}>
             {goals.map((goal, index) => (
               <View key={index} style={styles.cardContainer}>
