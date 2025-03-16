@@ -1,12 +1,13 @@
 import { useState } from "react";
 import {
+  FlatList,
   Pressable,
-  ScrollView,
   StyleSheet,
   Text,
   TextInput,
   View,
 } from "react-native";
+import GoalItem from "./components/GoalItem";
 
 export default function App() {
   const [search, setSearch] = useState("");
@@ -39,15 +40,13 @@ export default function App() {
         </Pressable>
       </View>
       <View style={styles.goalsContainer}>
-        <ScrollView alwaysBounceVertical={false}>
-          <View style={{ gap: 16 }}>
-            {goals.map((goal, index) => (
-              <View key={index} style={styles.cardContainer}>
-                <Text>{goal}</Text>
-              </View>
-            ))}
-          </View>
-        </ScrollView>
+        <FlatList
+          data={goals}
+          renderItem={(data) => {
+            return <GoalItem text={data.item} />;
+          }}
+          alwaysBounceVertical={false}
+        />
       </View>
     </View>
   );
@@ -64,7 +63,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     alignItems: "center",
-    gap: 5,
+    gap: 6,
     marginBottom: 24,
     borderBottomWidth: 1,
     borderBottomColor: "#ccc",
@@ -80,24 +79,30 @@ const styles = StyleSheet.create({
   searchButton: {
     alignItems: "center",
     justifyContent: "center",
-    paddingVertical: 12,
-    paddingHorizontal: 18,
+    paddingVertical: 11,
+    paddingHorizontal: 16,
     borderRadius: 4,
     elevation: 3,
     backgroundColor: "white",
   },
   btnText: {
-    color: "pink",
+    color: "#00796b",
     fontWeight: "500",
+    fontSize: 16,
     letterSpacing: 0.25,
   },
   goalsContainer: {
-    flex: 8,
+    flex: 5,
   },
-  cardContainer: {
-    padding: 16,
-    borderRadius: 4,
+  goalItem: {
+    padding: 12,
+    margin: 8,
+    borderRadius: 10,
     backgroundColor: "#e0f7fa",
     elevation: 3,
+  },
+  goalText: {
+    color: "#00796b",
+    fontSize: 16,
   },
 });
