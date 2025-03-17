@@ -10,6 +10,10 @@ export default function App() {
     setGoals((currentGoals) => [...currentGoals, enteredGoalText]);
   }
 
+  function removeGoal(goal) {
+    console.log("deleted");
+  }
+
   return (
     <View style={styles.container}>
       <GoalInput onAddGoal={addGoal} />
@@ -17,7 +21,7 @@ export default function App() {
         <FlatList
           data={goals}
           renderItem={(data) => {
-            return <GoalItem text={data.item} />;
+            return <GoalItem text={data.item} onDeleteItem={removeGoal} />;
           }}
           alwaysBounceVertical={false}
         />
