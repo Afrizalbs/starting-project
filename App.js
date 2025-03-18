@@ -7,11 +7,16 @@ export default function App() {
   const [goals, setGoals] = useState([]);
 
   function addGoal(enteredGoalText) {
-    setGoals((currentGoals) => [...currentGoals, enteredGoalText]);
+    setGoals((currentGoals) => [
+      ...currentGoals,
+      { id: Math.random().toString(), text: enteredGoalText },
+    ]);
   }
 
-  function removeGoal(goal) {
-    console.log("deleted");
+  function removeGoal(id) {
+    setGoals((currentGoals) => {
+      return currentGoals.filter((goal) => goal.id !== id);
+    });
   }
 
   return (
@@ -21,7 +26,13 @@ export default function App() {
         <FlatList
           data={goals}
           renderItem={(data) => {
-            return <GoalItem text={data.item} onDeleteItem={removeGoal} />;
+            return (
+              <GoalItem
+                id={data.item.id}
+                text={data.item.text}
+                onDeleteItem={removeGoal}
+              />
+            );
           }}
           alwaysBounceVertical={false}
         />
