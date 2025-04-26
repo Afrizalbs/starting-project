@@ -11,8 +11,7 @@ import {
 import ListImage from "../assets/list.png";
 
 function GoalInput(props) {
-  const [enteredGoalText, setEnteredGoalText] = useState("");
-
+  const [enteredGoalText, setEnteredGoalText] = useState();
   function handleSearchInput(enteredText) {
     setEnteredGoalText(enteredText);
   }
